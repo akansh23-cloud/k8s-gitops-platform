@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/YOUR_USERNAME/k8s-gitops-platform.git
+    repoURL: https://github.com/akansh23-cloud/k8s-gitops-platform
     targetRevision: master
     path: gitops/base/order-service
 
