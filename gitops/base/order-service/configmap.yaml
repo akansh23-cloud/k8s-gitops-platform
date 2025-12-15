@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+  namespace: app
+data:
+  SPRING_PROFILES_ACTIVE: dev
