@@ -13,16 +13,21 @@ spec:
     chart: kibana
     targetRevision: 8.5.1
     helm:
-      valueFiles:
-        - values/kibana-values.yaml
-  sources:
-    - repoURL: https://github.com/akansh23-cloud/k8s-gitops-platform.git
-      targetRevision: master
-      ref: values
+      values: |
+        replicas: 1
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+        elasticsearchHosts: "http://elasticsearch-master:9200"
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-

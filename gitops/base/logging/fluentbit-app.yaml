@@ -13,16 +13,29 @@ spec:
     chart: fluent-bit
     targetRevision: 0.48.7
     helm:
-      valueFiles:
-        - values/fluentbit-values.yaml
-  sources:
-    - repoURL: https://github.com/akansh23-cloud/k8s-gitops-platform.git
-      targetRevision: master
-      ref: values
+      values: |
+        backend:
+          type: es
+          es:
+            host: elasticsearch-master
+            port: 9200
+            index: kubernetes-logs
+            logstash_prefix: kubernetes-logs
+            tls: off
+
+        input:
+          tail:
+            enabled: true
+
+        filter:
+          kubernetes:
+            enabled: true
+
+        tolerations:
+          - operator: Exists
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-

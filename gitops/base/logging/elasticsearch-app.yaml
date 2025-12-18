@@ -13,16 +13,30 @@ spec:
     chart: elasticsearch
     targetRevision: 8.5.1
     helm:
-      valueFiles:
-        - values/elasticsearch-values.yaml
-  sources:
-    - repoURL: https://github.com/akansh23-cloud/k8s-gitops-platform.git
-      targetRevision: master
-      ref: values
+      values: |
+        replicas: 1
+        minimumMasterNodes: 1
+
+        esJavaOpts: "-Xms512m -Xmx512m"
+
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1Gi
+          limits:
+            cpu: 1
+            memory: 2Gi
+
+        volumeClaimTemplate:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+
+        antiAffinity: "soft"
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-
