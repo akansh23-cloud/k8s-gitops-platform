@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: ghcr.io/akansh23-cloud/order-service:latest
+          image: ghcr.io/akansh23-cloud/order-service:1.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
