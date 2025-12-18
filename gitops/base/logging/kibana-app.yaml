@@ -18,9 +18,11 @@ spec:
       values: |
         replicas: 1
 
+        # IMPORTANT: your Elasticsearch is secured (401 without creds),
+        # so use https
         elasticsearchHosts: "https://elasticsearch-master:9200"
 
-        # These secrets are created by the elasticsearch helm chart (default names)
+        # Secrets created by elasticsearch chart
         elasticsearchCredentialSecret: elasticsearch-master-credentials
         elasticsearchCertificateSecret: elasticsearch-master-certs
         elasticsearchCertificateAuthoritiesFile: ca.crt
@@ -32,6 +34,10 @@ spec:
           limits:
             cpu: 500m
             memory: 512Mi
+
+        # Disable the pre-install job (it keeps failing/looping in your cluster)
+        preInstall:
+          enabled: false
 
         extraEnvs:
           - name: ELASTICSEARCH_REQUESTTIMEOUT
