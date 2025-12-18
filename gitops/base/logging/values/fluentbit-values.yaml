@@ -1,0 +1,20 @@
+backend:
+  type: es
+  es:
+    host: elasticsearch-master
+    port: 9200
+    index: kubernetes-logs
+    logstash_prefix: kubernetes-logs
+    tls: off
+
+input:
+  tail:
+    enabled: true
+
+filter:
+  kubernetes:
+    enabled: true
+
+tolerations:
+  - operator: Exists
+
