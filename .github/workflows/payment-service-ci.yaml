@@ -1,0 +1,36 @@
+name: Payment Service CI
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - "apps/payment-service/**"
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set image tag
+        run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and push Docker image (sha + latest)
+        run: |
+          docker build \
+            -t ghcr.io/akansh23-cloud/payment-service:${{ env.TAG }} \
+            -t ghcr.io/akansh23-cloud/payment-service:latest \
+            apps/payment-service
+
+          docker push ghcr.io/akansh23-cloud/payment-service:${{ env.TAG }}
+          docker push ghcr.io/akansh23-cloud/payment-service:latest
