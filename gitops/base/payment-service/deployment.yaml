@@ -16,7 +16,7 @@ spec:
       containers:
         - name: payment-service
           image: ghcr.io/akansh23-cloud/payment-service:latest
-          imagePullPolicy: always
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           envFrom:
