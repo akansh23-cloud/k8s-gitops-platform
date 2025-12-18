@@ -5,9 +5,11 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   destination:
     server: https://kubernetes.default.svc
     namespace: logging
+
   source:
     repoURL: https://helm.elastic.co
     chart: kibana
@@ -16,7 +18,12 @@ spec:
       values: |
         replicas: 1
 
-        elasticsearchHosts: "http://elasticsearch-master:9200"
+        elasticsearchHosts: "https://elasticsearch-master:9200"
+
+        # These secrets are created by the elasticsearch helm chart (default names)
+        elasticsearchCredentialSecret: elasticsearch-master-credentials
+        elasticsearchCertificateSecret: elasticsearch-master-certs
+        elasticsearchCertificateAuthoritiesFile: ca.crt
 
         resources:
           requests:
@@ -33,6 +40,7 @@ spec:
             value: "120000"
           - name: ELASTICSEARCH_SHARDTIMEOUT
             value: "120000"
+
   syncPolicy:
     automated:
       prune: true
