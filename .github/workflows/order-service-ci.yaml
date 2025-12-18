@@ -5,6 +5,8 @@ on:
     branches: [ "master" ]
     paths:
       - "apps/order-service/**"
+      - "gitops/**"
+      - ".github/workflows/**"
 
 permissions:
   contents: write
